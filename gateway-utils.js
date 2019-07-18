@@ -23,6 +23,7 @@ const addCorsHeaders = (response) => {
 }
 
 const OK = 'ok'
+const UNKNOWN = 'unknown'
 
 const createPayload = (code, payload, msg) => ({
     code, payload, msg
@@ -37,15 +38,18 @@ const createResponse = (statusCode, code, payload, msg) => {
 
 const createOkResponse = (payload) => createResponse(200, OK, payload)
 
-const createErrorReponse = (statusCode, code, msg) => createResponse(statusCode, code, undefined, msg)
+const createErrorResponse = (statusCode, code, msg) => createResponse(statusCode, code, undefined, msg)
 
-const createConfictReponse = (code, msg) => createErrorReponse(409, code, msg)
+const createConfictResponse = (code, msg) => createErrorResponse(409, code, msg)
+
+const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
 module.exports = {    
     addCorsHeaders,
     getParamFromEvent,
     getBodyFromEvent,
     createOkResponse,
-    createErrorReponse,
-    createConfictReponse,    
+    createErrorResponse,
+    createConfictResponse, 
+    createUnknownResponse,   
 }
