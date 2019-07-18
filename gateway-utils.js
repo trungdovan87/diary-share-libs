@@ -37,9 +37,15 @@ const createResponse = (statusCode, code, payload, msg) => {
 
 const createOkResponse = (payload) => createResponse(200, OK, payload)
 
+const createErrorReponse = (statusCode, code, msg) => createResponse(statusCode, code, undefined, msg)
+
+const createConfictReponse = (code, msg) => createErrorReponse(409, code, msg)
+
 module.exports = {    
     addCorsHeaders,
     getParamFromEvent,
     getBodyFromEvent,
-    createOkResponse
+    createOkResponse,
+    createErrorReponse,
+    createConfictReponse,    
 }
