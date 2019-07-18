@@ -2,6 +2,10 @@ const getParamFromEvent = (event, param) => {
     return event.pathParameters[param]
 }
 
+const getBodyFromEvent = (event) => {
+    return JSON.parse(event.body)
+}
+
 const CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Credentials": true
@@ -14,11 +18,28 @@ const addCorsHeaders = (response) => {
     }    
     return {
         ...response,
-        headers,        
+        headers,   
     }
 }
 
-module.exports = {
+const OK = 'ok'
+
+const createPayload = (code, payload, msg) => ({
+    code, payload, msg
+})
+
+const createResponse = (statusCode, code, payload, msg) => {
+    return addCorsHeaders({
+        statusCode,    
+        body: JSON.stringify(createPayload(code, payload, msg)),
+    })
+}
+
+const createOkResponse = (payload) => createResponse(200, OK, payload)
+
+module.exports = {    
+    addCorsHeaders,
     getParamFromEvent,
-    addCorsHeaders
+    getBodyFromEvent,
+    createOkResponse
 }
