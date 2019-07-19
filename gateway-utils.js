@@ -40,7 +40,7 @@ const createOkResponse = (payload) => createResponse(200, OK, payload)
 
 const createErrorResponse = (statusCode, code, msg) => createResponse(statusCode, code, undefined, msg)
 
-const createConfictResponse = (code, msg) => createErrorResponse(409, code, msg)
+const createConflictResponse = (code, msg) => createErrorResponse(409, code, msg)
 
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
@@ -50,6 +50,6 @@ module.exports = {
     getBodyFromEvent,
     createOkResponse,
     createErrorResponse,
-    createConfictResponse, 
+    createConflictResponse, 
     createUnknownResponse,   
 }
