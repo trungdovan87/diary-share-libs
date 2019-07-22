@@ -42,6 +42,8 @@ const createErrorResponse = (statusCode, code, msg) => createResponse(statusCode
 
 const createConflictResponse = (code, msg) => createErrorResponse(409, code, msg)
 
+const createForbiddenResponse = (code, msg) => createErrorResponse(403, code, msg)
+
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
 module.exports = {
@@ -52,6 +54,6 @@ module.exports = {
     createErrorResponse,
     createConflictResponse, 
     createUnknownResponse,   
-    createConflictResponse,
+    createForbiddenResponse,
     createUnknownResponse,
 }

@@ -11,7 +11,7 @@ const createJsonWebToken = (secrteKey, msg, expire, optionHeader) => {
 }
 
 const verifyJsonWebToken = (secrteKey, token) => {
-    return jwt.verify(token, secrteKey)
+    return jwt.verify(token, secrteKey).msg
 }
 
 module.exports = {
