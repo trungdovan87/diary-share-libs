@@ -2,10 +2,6 @@
 
 const jwt = require('jsonwebtoken')
 
-const erorCode = {
-    INVALID_TOKEN: 'invalid-token'
-}
-
 const createJsonWebToken = (secrteKey, msg, expire, optionHeader) => {
     if (optionHeader === undefined) {
         return jwt.sign({msg}, secrteKey, {algorithm: 'HS256', expiresIn: expire})
@@ -15,13 +11,7 @@ const createJsonWebToken = (secrteKey, msg, expire, optionHeader) => {
 }
 
 const verifyJsonWebToken = (secrteKey, token) => {
-    return jwt.verify(token, secrteKey, (err, msg) => {
-        if (err) {
-            throw new Error(erorCode.INVALID_TOKEN)
-        } else {
-            return msg;
-        }
-    })
+    return jwt.verify(token, secrteKey)
 }
 
 module.exports = {

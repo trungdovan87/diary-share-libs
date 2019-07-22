@@ -44,13 +44,6 @@ const createConflictResponse = (code, msg) => createErrorResponse(409, code, msg
 
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
-const createJsonResponse = (statusCode, json) => {
-    return addCorsHeaders({
-        statusCode,
-        body: JSON.stringify(json)
-    })
-}
-
 module.exports = {
     addCorsHeaders,
     getParamFromEvent,
@@ -61,5 +54,4 @@ module.exports = {
     createUnknownResponse,   
     createConflictResponse,
     createUnknownResponse,
-    createJsonResponse
 }
