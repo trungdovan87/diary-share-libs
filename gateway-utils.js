@@ -15,10 +15,10 @@ const addCorsHeaders = (response) => {
     const headers = !response.headers ? CORS_HEADERS : {
         ...CORS_HEADERS,
         ...response.headers
-    }    
+    }
     return {
         ...response,
-        headers,   
+        headers,
     }
 }
 
@@ -31,7 +31,7 @@ const createPayload = (code, payload, msg) => ({
 
 const createResponse = (statusCode, code, payload, msg) => {
     return addCorsHeaders({
-        statusCode,    
+        statusCode,
         body: JSON.stringify(createPayload(code, payload, msg)),
     })
 }
@@ -44,7 +44,14 @@ const createConflictResponse = (code, msg) => createErrorResponse(409, code, msg
 
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
-module.exports = {    
+const createJsonResponse = (statusCode, json) => {
+    return addCorsHeaders({
+        statusCode,
+        body: JSON.stringify(json)
+    })
+}
+
+module.exports = {
     addCorsHeaders,
     getParamFromEvent,
     getBodyFromEvent,
@@ -52,4 +59,7 @@ module.exports = {
     createErrorResponse,
     createConflictResponse, 
     createUnknownResponse,   
+    createConflictResponse,
+    createUnknownResponse,
+    createJsonResponse
 }
