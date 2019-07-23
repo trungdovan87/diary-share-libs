@@ -16,6 +16,8 @@ const getValueQueryParam = (event, param) => event.queryStringParameters[param]
 
 const getPrincipalId = (event) => event.requestContext.authorizer.principalId
 
+const getEnviroment = (variable) => process.env[variable]
+
 module.exports = {
   getPathParam,
   getBody,
@@ -23,4 +25,5 @@ module.exports = {
   getValueQueryParam,
   getHeader,
   getPrincipalId,
+  getEnviroment,
 }
