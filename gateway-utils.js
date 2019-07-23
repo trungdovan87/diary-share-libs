@@ -1,11 +1,3 @@
-const getParamFromEvent = (event, param) => {
-    return event.pathParameters[param]
-}
-
-const getBodyFromEvent = (event) => {
-    return JSON.parse(event.body)
-}
-
 const CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Credentials": true
@@ -47,9 +39,7 @@ const createForbiddenResponse = (code, msg) => createErrorResponse(403, code, ms
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
 module.exports = {
-    addCorsHeaders,
-    getParamFromEvent,
-    getBodyFromEvent,
+    addCorsHeaders,    
     createOkResponse,
     createErrorResponse,
     createConflictResponse, 
