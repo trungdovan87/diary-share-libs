@@ -1,3 +1,5 @@
+const httpError = require('./http-error')
+
 const CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Credentials": true
@@ -42,7 +44,16 @@ const supportHandler = (handler) => async (event, context) => {
     try {
         return await handler(event, context)
     } catch (error) {
-        return createUnknownResponse(error.message)
+        if (error instanceof httpError.ForbiddenError) {   
+            return createForbiddenResponse(error.code, error.msg)
+        } else if (error instanceof httpError.ConflictError) {
+            return createConflictResponse(error.code, error.msg)
+        } else if (error instanceof httpError.HttpError) {
+            return createErrorResponse(error.statusCode, error.code, error.msg)
+        } else {
+            console.error(error)
+            return createUnknownResponse(error.message)
+        }        
     }
 }
 
