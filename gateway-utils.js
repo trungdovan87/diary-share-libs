@@ -38,8 +38,17 @@ const createForbiddenResponse = (code, msg) => createErrorResponse(403, code, ms
 
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
+const supportHandler = (handler) => async (event, context) => {
+    try {
+        return await handler(event, context)
+    } catch (error) {
+        return createUnknownResponse(error.message)
+    }
+}
+
 module.exports = {
-    addCorsHeaders,    
+    supportHandler,
+    addCorsHeaders,   
     createOkResponse,
     createErrorResponse,
     createConflictResponse, 
