@@ -2,16 +2,16 @@
 
 const jwt = require('jsonwebtoken')
 
-const createJsonWebToken = (secrteKey, msg, expire, optionHeader) => {
+const createJsonWebToken = (secrteKey, payload, expire, optionHeader) => {
     if (optionHeader === undefined) {
-        return jwt.sign({msg}, secrteKey, {algorithm: 'HS256', expiresIn: expire})
+        return jwt.sign({ ...payload }, secrteKey, {algorithm: 'HS256', expiresIn: expire})
     } else {
-        return jwt.sign({msg}, secrteKey, {algorithm: 'HS256', expiresIn: expire, header: optionHeader})
+        return jwt.sign({ ...payload }, secrteKey, {algorithm: 'HS256', expiresIn: expire, header: optionHeader})
     }
 }
 
 const verifyJsonWebToken = (secrteKey, token) => {
-    return jwt.verify(token, secrteKey).msg
+    return jwt.verify(token, secrteKey)
 }
 
 module.exports = {
