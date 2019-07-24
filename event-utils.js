@@ -10,11 +10,19 @@ const getBody = (event) => {
 
 const getHeader = (event, header) => event.headers[header]
 
-const getMutiValueQueryParam = (event, param) => event.multiValueQueryStringParameters[param]
+const getMutiValueQueryParam = (event, param) => {
+  const params = event.multiValueQueryStringParameters
+  return params && params[param]
+}
 
-const getValueQueryParam = (event, param) => event.queryStringParameters[param]
+const getValueQueryParam = (event, param) => {
+  const params = event.queryStringParameters[param]
+  return params && params[param]
+}
 
 const getPrincipalId = (event) => event.requestContext.authorizer.principalId
+
+const getEnviroment = (variable) => process.env[variable]
 
 module.exports = {
   getPathParam,
@@ -23,4 +31,5 @@ module.exports = {
   getValueQueryParam,
   getHeader,
   getPrincipalId,
+  getEnviroment,
 }

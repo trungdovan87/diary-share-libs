@@ -1,3 +1,5 @@
+const httpError = require('./http-error')
+
 const CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Credentials": true
@@ -38,8 +40,26 @@ const createForbiddenResponse = (code, msg) => createErrorResponse(403, code, ms
 
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
+const supportHandler = (handler) => async (event, context) => {
+    try {
+        return await handler(event, context)
+    } catch (error) {
+        if (error instanceof httpError.ForbiddenError) {   
+            return createForbiddenResponse(error.code, error.msg)
+        } else if (error instanceof httpError.ConflictError) {
+            return createConflictResponse(error.code, error.msg)
+        } else if (error instanceof httpError.HttpError) {
+            return createErrorResponse(error.statusCode, error.code, error.msg)
+        } else {
+            console.error(error)
+            return createUnknownResponse(error.message)
+        }        
+    }
+}
+
 module.exports = {
-    addCorsHeaders,    
+    supportHandler,
+    addCorsHeaders,   
     createOkResponse,
     createErrorResponse,
     createConflictResponse, 
