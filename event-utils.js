@@ -13,7 +13,7 @@ const getParam = (event, path, param) => {
 
 const getMutiValueQueryParam = (event, param) => getParam(event, 'multiValueQueryStringParameters', param)
 
-const getValueQueryParam = (event, param) => getParam(event, 'queryStringParameters', param)
+const getQueryParam = (event, param) => getParam(event, 'queryStringParameters', param)
 
 const getPathParam = (event, param) => getParam(event, 'pathParameters', param)
 
@@ -24,7 +24,7 @@ const getEnviroment = (variable) => process.env[variable]
 module.exports = {
   getBody,
   getMutiValueQueryParam,
-  getValueQueryParam,
+  getQueryParam,
   getPathParam,
   getHeader,
   getPrincipalId,
