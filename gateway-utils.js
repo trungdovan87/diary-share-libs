@@ -38,6 +38,8 @@ const createConflictResponse = (code, msg) => createErrorResponse(409, code, msg
 
 const createForbiddenResponse = (code, msg) => createErrorResponse(403, code, msg)
 
+const createBadRequestResponse = (code, msg) => createErrorResponse(400, code, msg)
+
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
 const supportHandler = (handler) => async (event, context) => {
@@ -48,10 +50,14 @@ const supportHandler = (handler) => async (event, context) => {
             return createForbiddenResponse(error.code, error.msg)
         } else if (error instanceof httpError.ConflictError) {
             return createConflictResponse(error.code, error.msg)
+        } else if (error instanceof httpError.BadRequestError) {
+            return createBadRequestResponse(error.code, error.msg)
         } else if (error instanceof httpError.HttpError) {
+            // general Http Error
             return createErrorResponse(error.statusCode, error.code, error.msg)
         } else {
-            console.error(error)
+            // unknow error
+            console.error('**** Unknown Error:', error)
             return createUnknownResponse(error.message)
         }        
     }
