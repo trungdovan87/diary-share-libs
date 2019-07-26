@@ -43,6 +43,7 @@ const createBadRequestResponse = (code, msg) => createErrorResponse(400, code, m
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
 
 const supportHandler = (handler) => async (event, context) => {
+    console.log('***** event:', JSON.stringify(event))
     try {
         return await handler(event, context)
     } catch (error) {
@@ -57,7 +58,7 @@ const supportHandler = (handler) => async (event, context) => {
             return createErrorResponse(error.statusCode, error.code, error.msg)
         } else {
             // unknow error
-            console.error('**** Unknown Error:', error)
+            console.error('***** Unknown Error:', error)
             return createUnknownResponse(error.message)
         }        
     }
