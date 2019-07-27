@@ -32,6 +32,8 @@ const createResponse = (statusCode, code, payload, msg) => {
 
 const createOkResponse = (payload) => createResponse(200, OK, payload)
 
+const createCreatedResponse = (payload) => createResponse(201, OK, payload)
+
 const createErrorResponse = (statusCode, code, msg) => createResponse(statusCode, code, undefined, msg)
 
 const createConflictResponse = (code, msg) => createErrorResponse(409, code, msg)
@@ -68,6 +70,7 @@ module.exports = {
     supportHandler,
     addCorsHeaders,   
     createOkResponse,
+    createCreatedResponse,
     createErrorResponse,
     createConflictResponse, 
     createUnknownResponse,   
