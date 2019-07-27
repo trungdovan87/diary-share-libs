@@ -43,20 +43,35 @@ const createForbiddenResponse = (code, msg) => createErrorResponse(403, code, ms
 
 const createBadRequestResponse = (code, msg) => createErrorResponse(400, code, msg)
 
+const createNotFoundResponse = (code, msg) => createErrorResponse(404, code, msg)
+
 const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
+
+class ErrorConfigure {
+    constructor(errorClass, createResponseMethod) {
+        this.errorClass = errorClass
+        this.createResponseMethod = createResponseMethod
+    }
+}
+
+const errorConfigs = [
+    new ErrorConfigure(httpError.ForbiddenError, createForbiddenResponse),
+    new ErrorConfigure(httpError.ConflictError, createConflictResponse),
+    new ErrorConfigure(httpError.BadRequestError, createBadRequestResponse),
+    new ErrorConfigure(httpError.NotFoundError, createNotFoundResponse),
+]
 
 const supportHandler = (handler) => async (event, context) => {
     console.log('***** event:', JSON.stringify(event))
     try {
         return await handler(event, context)
     } catch (error) {
-        if (error instanceof httpError.ForbiddenError) {   
-            return createForbiddenResponse(error.code, error.msg)
-        } else if (error instanceof httpError.ConflictError) {
-            return createConflictResponse(error.code, error.msg)
-        } else if (error instanceof httpError.BadRequestError) {
-            return createBadRequestResponse(error.code, error.msg)
-        } else if (error instanceof httpError.HttpError) {
+        for (const config of errorConfigs){
+            if (error instanceof config.errorClass) {
+                return config.createResponseMethod(error.code, error.msg)
+            }
+        }            
+        if (error instanceof httpError.HttpError) {
             // general Http Error
             return createErrorResponse(error.statusCode, error.code, error.msg)
         } else {
