@@ -18,6 +18,7 @@ const addCorsHeaders = (response) => {
 
 const OK = 'ok'
 const UNKNOWN = 'unknown'
+const INVALID_DATA = 'invalid-data'
 
 const createPayload = (code, payload, msg) => ({
     code, payload, msg
@@ -66,6 +67,20 @@ const supportHandler = (handler) => async (event, context) => {
     }
 }
 
+const throwInvalidDataError = (msg) => {
+    throw new httpError.BadRequestError(
+        INVALID_DATA,
+        msg,
+    )
+}
+
+const throwIfInvalid = (validatorResult) => {
+    const { errors } = validatorResult
+    if (!!errors.length) {
+        throwInvalidDataError(errors[0].stack)
+    }
+}
+
 module.exports = {
     supportHandler,
     addCorsHeaders,   
@@ -76,4 +91,6 @@ module.exports = {
     createUnknownResponse,   
     createForbiddenResponse,
     createUnknownResponse,
+    throwInvalidDataError,
+    throwIfInvalid,
 }
