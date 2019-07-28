@@ -1,4 +1,5 @@
 const httpError = require('./http-error')
+const errorCode = require('./error-code')
 
 const CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
@@ -16,10 +17,6 @@ const addCorsHeaders = (response) => {
     }
 }
 
-const OK = 'ok'
-const UNKNOWN = 'unknown'
-const INVALID_DATA = 'invalid-data'
-
 const createPayload = (code, payload, msg) => ({
     code, payload, msg
 })
@@ -31,9 +28,9 @@ const createResponse = (statusCode, code, payload, msg) => {
     })
 }
 
-const createOkResponse = (payload) => createResponse(200, OK, payload)
+const createOkResponse = (payload) => createResponse(200, errorCode.OK, payload)
 
-const createCreatedResponse = (payload) => createResponse(201, OK, payload)
+const createCreatedResponse = (payload) => createResponse(201, errorCode.OK, payload)
 
 const createErrorResponse = (statusCode, code, msg) => createResponse(statusCode, code, undefined, msg)
 
@@ -45,7 +42,7 @@ const createBadRequestResponse = (code, msg) => createErrorResponse(400, code, m
 
 const createNotFoundResponse = (code, msg) => createErrorResponse(404, code, msg)
 
-const createUnknownResponse = (msg) => createErrorResponse(500, UNKNOWN, msg)
+const createUnknownResponse = (msg) => createErrorResponse(500, errorCode.UNKNOWN, msg)
 
 class ErrorConfigure {
     constructor(errorClass, createResponseMethod) {
@@ -84,7 +81,7 @@ const supportHandler = (handler) => async (event, context) => {
 
 const throwInvalidDataError = (msg) => {
     throw new httpError.BadRequestError(
-        INVALID_DATA,
+        errorCode.INVALID_DATA,
         msg,
     )
 }
@@ -97,6 +94,7 @@ const throwIfInvalid = (validatorResult) => {
 }
 
 module.exports = {
+    errorCode,
     supportHandler,
     addCorsHeaders,   
     createOkResponse,

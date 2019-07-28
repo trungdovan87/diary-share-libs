@@ -1,7 +1,13 @@
 'use strict';
 
+const gatewayUtils = require('./gateway-utils')
+
 const getBody = (event) => {
-  return JSON.parse(event.body)
+  try {
+    return JSON.parse(event.body)
+  } catch (err) {
+    gatewayUtils.throwInvalidDataError('Body is not JSON format!')
+  }
 }
 
 const getHeader = (event, header) => event.headers[header]
