@@ -1,5 +1,5 @@
 const createdTimestamp = 'createdTimestamp'
-const lastUpdatedTimestamp = 'createdTimestamp'
+const lastUpdatedTimestamp = 'lastUpdatedTimestamp'
 const version = 'version'
 
 const createItem = (data) => {
