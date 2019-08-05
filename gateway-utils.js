@@ -42,6 +42,8 @@ const createBadRequestResponse = (code, msg) => createErrorResponse(400, code, m
 
 const createNotFoundResponse = (code, msg) => createErrorResponse(404, code, msg)
 
+const createInternalServerResponse = (code, msg) => createErrorResponse(500, code, msg)
+
 const createUnknownResponse = (msg) => createErrorResponse(500, errorCode.UNKNOWN, msg)
 
 class ErrorConfigure {
@@ -56,6 +58,7 @@ const errorConfigs = [
     new ErrorConfigure(httpError.ConflictError, createConflictResponse),
     new ErrorConfigure(httpError.BadRequestError, createBadRequestResponse),
     new ErrorConfigure(httpError.NotFoundError, createNotFoundResponse),
+    new ErrorConfigure(httpError.InternalServerError, createInternalServerResponse),
 ]
 
 const supportHandler = (handler) => async (event, context) => {
