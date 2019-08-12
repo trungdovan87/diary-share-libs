@@ -106,7 +106,7 @@ module.exports = {
     createConflictResponse, 
     createUnknownResponse,   
     createForbiddenResponse,
-    createUnknownResponse,
+    createNotFoundResponse,
     throwInvalidDataError,
     throwIfInvalid,
 }
